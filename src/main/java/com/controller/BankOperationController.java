@@ -16,12 +16,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/account")
 public class BankOperationController {
-    @Autowired
-    AccountService accountService;
 
-    @Autowired
-    TransactionService transactionService;
+    private final AccountService accountService;
 
+
+    private final TransactionService transactionService;
+
+    public BankOperationController(AccountService accountService, TransactionService transactionService) {
+        this.accountService = accountService;
+        this.transactionService = transactionService;
+    }
 
     @PostMapping(value = "create",consumes = MediaType.APPLICATION_JSON_VALUE)
     public Account createAccount(@RequestBody Account holderName){

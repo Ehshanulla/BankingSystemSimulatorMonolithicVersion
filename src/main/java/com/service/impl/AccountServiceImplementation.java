@@ -14,8 +14,14 @@ import java.util.Optional;
 
 @Service
 public class AccountServiceImplementation implements AccountService {
-    @Autowired
-    AccountRepository accountRepository;
+
+    private final AccountRepository accountRepository;
+
+
+
+    public AccountServiceImplementation(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
     @Override
     public Account createAccount(Account account) {

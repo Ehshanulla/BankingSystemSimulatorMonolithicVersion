@@ -14,11 +14,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionServiceImplementation implements TransactionService {
-    @Autowired
-    TransactionsRepository transactionsRepository;
 
-    @Autowired
-    AccountRepository accountRepository;
+    private final TransactionsRepository transactionsRepository;
+
+    private final AccountRepository accountRepository;
+
+
+    public TransactionServiceImplementation(TransactionsRepository transactionsRepository, AccountRepository accountRepository) {
+        this.transactionsRepository = transactionsRepository;
+        this.accountRepository = accountRepository;
+    }
+
+
+
 
     @Override
     public boolean deposit(String accountNumber, double amount) {
