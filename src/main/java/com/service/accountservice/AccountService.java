@@ -1,4 +1,4 @@
-package com.service;
+package com.service.accountservice;
 
 
 import com.document.Account;
@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public interface AccountService {
-    Account createAccount(Account account);
-    Account getAccount(String accountNumber);
 
-    List<Transaction> getAllTransactions(String accountId);
+public interface AccountService {
+    Account createAccount(String name);
+    Account getAccount(String accountNumber);
+    List<Transaction> getAllTransactionIds(String accountId);
 }

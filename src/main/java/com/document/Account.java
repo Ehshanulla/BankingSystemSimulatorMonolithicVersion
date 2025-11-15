@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @Document(collection = "accounts")
@@ -14,7 +15,7 @@ public class Account {
     private String holderName;
     private double balance;
     private String status;
-    final private LocalDate createdAt=LocalDate.now();
+    final private LocalDateTime createdAt=LocalDateTime.now();
     private List<Transaction> transactions = new ArrayList<>();
 
     public String getAccountNumber() {
@@ -49,7 +50,7 @@ public class Account {
         this.status = status;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 

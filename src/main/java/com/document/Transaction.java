@@ -1,20 +1,23 @@
 package com.document;
 
+import com.enums.TransactionStatus;
+import com.enums.TransactionType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Document(collection = "transactions")
 public class Transaction {
     @Id
     private String transactionId;
-    private String type;
+    private TransactionType type;
 
     private double amount;
-    final private LocalDate timestamp=LocalDate.now();
-    private String status;
+    final private LocalDateTime timestamp= LocalDateTime.now();
+    private TransactionStatus status;
     @Indexed
     private String sourceAccountId;
     @Indexed
@@ -28,11 +31,11 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public String getType() {
+    public TransactionType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TransactionType type) {
         this.type = type;
     }
 
@@ -44,15 +47,15 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public LocalDate getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public String getStatus() {
+    public TransactionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TransactionStatus status) {
         this.status = status;
     }
 
