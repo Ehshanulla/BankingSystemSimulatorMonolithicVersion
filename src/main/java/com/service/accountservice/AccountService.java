@@ -12,4 +12,6 @@ public interface AccountService {
     Account createAccount(String name);
     Account getAccount(String accountNumber);
     List<Transaction> getAllTransactionIds(String accountId);
+    Account updateAccount(Account account);
+    boolean deleteAccount(String accountNumber);
 }

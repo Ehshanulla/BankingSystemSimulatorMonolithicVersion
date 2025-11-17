@@ -12,16 +12,30 @@ import java.time.LocalDateTime;
 @Document(collection = "transactions")
 public class Transaction {
     @Id
+    String id;
+    @Indexed(unique = true)
     private String transactionId;
     private TransactionType type;
 
     private double amount;
-    final private LocalDateTime timestamp= LocalDateTime.now();
+    private LocalDateTime timestamp;
     private TransactionStatus status;
     @Indexed
     private String sourceAccountId;
     @Indexed
     private String destinationAccountId;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public String getTransactionId() {
         return transactionId;

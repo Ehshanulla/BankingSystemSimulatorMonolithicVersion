@@ -1,6 +1,8 @@
 package com.document;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -11,12 +13,28 @@ import java.util.List;
 @Document(collection = "accounts")
 public class Account {
     @Id
+    String id;
+    @Indexed(unique = true)
     private String accountNumber;
+    @NotBlank(message = "Holder name cannot be empty")
     private String holderName;
     private double balance;
     private String status;
-    final private LocalDateTime createdAt=LocalDateTime.now();
+    private LocalDateTime createdAt;
     private List<Transaction> transactions = new ArrayList<>();
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 
     public String getAccountNumber() {
         return accountNumber;

@@ -1,37 +1,81 @@
 package com.controller;
 
 import com.document.Account;
-import com.document.Transaction;
+import com.dto.requests.AccountCreateRequest;
+import com.dto.responses.AccountResponse;
+import com.dto.responses.TransactionResponse;
 import com.service.accountservice.AccountService;
-import com.service.transactionservice.transfer.TransactionServiceForTransfer;
+
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping(value = "/api/accounts", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AccountController {
 
     private final AccountService accountService;
-    public AccountController(AccountService a){
-        this.accountService = a;
+
+    private static final Logger log = LoggerFactory.getLogger(AccountController.class);
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
     }
 
-    @PostMapping(value = "create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Account> createAccount(@RequestBody String holderName){
-        return ResponseEntity.ok(accountService.createAccount(holderName));
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody Account request) {
+
+        Account account = accountService.createAccount(request.getHolderName());
+        log.info("Creating account for {}", request.getHolderName());
+        return ResponseEntity.status(HttpStatus.CREATED).body(AccountResponse.from(account));
     }
 
-    @GetMapping(value = "{accountNumber}")
-    public ResponseEntity<Account> getAccountById(@PathVariable("accountNumber") String accountNumber){
-        return ResponseEntity.ok(accountService.getAccount(accountNumber));
+
+    @GetMapping(value = "/{accountNumber}")
+    public ResponseEntity<AccountResponse> getAccount(@Valid @PathVariable String accountNumber) {
+        Account account = accountService.getAccount(accountNumber);
+
+        return ResponseEntity.ok(AccountResponse.from(account));
     }
 
 
-    @GetMapping(value = "{accountNumber}/transactions")
-    public ResponseEntity<List<Transaction>> getAllTransactions(@PathVariable("accountNumber") String accountNumber){
-        return ResponseEntity.ok(accountService.getAllTransactionIds(accountNumber)); }
+    @GetMapping(value = "/{accountNumber}/transactions")
+    public ResponseEntity<List<TransactionResponse>> getAccountTransactions(@Valid @PathVariable String accountNumber) {
+
+        List<TransactionResponse> list = accountService.getAllTransactionIds(accountNumber)
+                .stream()
+                .map(TransactionResponse::from)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(list);
+    }
+
+    @PatchMapping(value = "update",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AccountResponse> updateAccount(@Valid @RequestBody Account request){
+        Account account = accountService.updateAccount(request);
+        log.info("Updating account for {}", request.getHolderName());
+        return ResponseEntity.ok(AccountResponse.from(account));
+    }
+
+
+    @DeleteMapping(value = "delete/{accountNumber}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable String accountNumber) {
+        boolean deleted = accountService.deleteAccount(accountNumber);
+
+        if (deleted) {
+            log.info("Deleting account for {}", accountNumber);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }
