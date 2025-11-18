@@ -34,11 +34,15 @@ class AccountControllerMockTest {
 
     @Test
     void testCreateAccount() {
-        Account account = new Account();
-        account.setAccountNumber("JOH1234");
+        AccountCreateRequest account = new AccountCreateRequest();
         account.setHolderName("John Doe");
 
-        Mockito.when(accountService.createAccount("John Doe")).thenReturn(account);
+        Account acc = new Account();
+
+        acc.setAccountNumber("JOH1234");
+        acc.setHolderName(account.getHolderName());
+
+        Mockito.when(accountService.createAccount("John Doe")).thenReturn(acc);
 
         var responseEntity = accountController.createAccount(account);
         AccountResponse response = responseEntity.getBody();

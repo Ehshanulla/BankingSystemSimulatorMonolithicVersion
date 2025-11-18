@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.document.Account;
+import com.dto.requests.AccountCreateRequest;
 import com.dto.responses.AccountResponse;
 import com.dto.responses.TransactionResponse;
 import com.service.accountservice.AccountService;
@@ -29,7 +30,7 @@ public class AccountController {
     }
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody Account request) {
+    public ResponseEntity<AccountResponse> createAccount(@RequestBody AccountCreateRequest request) {
 
         Account account = accountService.createAccount(request.getHolderName());
         log.info("Creating account for {}", request.getHolderName());
