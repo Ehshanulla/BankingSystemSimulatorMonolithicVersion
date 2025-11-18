@@ -64,7 +64,7 @@ public class AccountServiceImplTest {
 
         Mockito.when(repo.findByAccountNumber("ACC002")).thenReturn(Optional.of(a));
 
-        List<Transaction> transactions = service.getAllTransactionIds("ACC002");
+        List<Transaction> transactions = service.getAllTransactions("ACC002");
         assertTrue(transactions.isEmpty());
     }
 
@@ -79,7 +79,7 @@ public class AccountServiceImplTest {
 
         Mockito.when(repo.findByAccountNumber("ACC003")).thenReturn(Optional.of(a));
 
-        List<Transaction> transactions = service.getAllTransactionIds("ACC003");
+        List<Transaction> transactions = service.getAllTransactions("ACC003");
         assertEquals(1, transactions.size());
         assertEquals("TXN-001", transactions.get(0).getTransactionId());
     }

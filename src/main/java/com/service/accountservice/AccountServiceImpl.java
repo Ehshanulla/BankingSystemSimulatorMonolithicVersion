@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
         return accountRepo.findByAccountNumber(accountNumber).orElseThrow(()->new AccountNotFoundException("Account not found"));
     }
     @Override
-    public List<Transaction> getAllTransactionIds(String accountId){
+    public List<Transaction> getAllTransactions(String accountId){
         return accountRepo.findByAccountNumber(accountId).map(Account::getTransactions).orElseGet(Collections::emptyList);
     }
     private String generateAccountNumber(String holderName) {

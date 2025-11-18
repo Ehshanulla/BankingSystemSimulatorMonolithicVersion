@@ -80,7 +80,7 @@ class AccountControllerMockTest {
         t2.setType(TransactionType.WITHDRAW);
         t2.setStatus(TransactionStatus.SUCCESS);
 
-        Mockito.when(accountService.getAllTransactionIds("JOH1234"))
+        Mockito.when(accountService.getAllTransactions("JOH1234"))
                 .thenReturn(List.of(t1, t2));
 
         var responseEntity = accountController.getAccountTransactions("JOH1234");

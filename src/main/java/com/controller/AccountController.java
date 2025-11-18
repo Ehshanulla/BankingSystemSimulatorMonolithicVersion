@@ -1,7 +1,6 @@
 package com.controller;
 
 import com.document.Account;
-import com.dto.requests.AccountCreateRequest;
 import com.dto.responses.AccountResponse;
 import com.dto.responses.TransactionResponse;
 import com.service.accountservice.AccountService;
@@ -49,7 +48,7 @@ public class AccountController {
     @GetMapping(value = "/{accountNumber}/transactions")
     public ResponseEntity<List<TransactionResponse>> getAccountTransactions(@Valid @PathVariable String accountNumber) {
 
-        List<TransactionResponse> list = accountService.getAllTransactionIds(accountNumber)
+        List<TransactionResponse> list = accountService.getAllTransactions(accountNumber)
                 .stream()
                 .map(TransactionResponse::from)
                 .collect(Collectors.toList());

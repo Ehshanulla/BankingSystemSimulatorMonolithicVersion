@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Document(collection = "transactions")
@@ -20,9 +19,9 @@ public class Transaction {
     private double amount;
     private LocalDateTime timestamp;
     private TransactionStatus status;
-    @Indexed
+    @Indexed(unique = true)
     private String sourceAccountId;
-    @Indexed
+    @Indexed(unique = true)
     private String destinationAccountId;
 
     public String getId() {
