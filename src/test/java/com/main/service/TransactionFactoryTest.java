@@ -4,17 +4,22 @@ package com.main.service;
 import com.document.Transaction;
 import com.enums.TransactionType;
 import com.service.transactionservice.factory.DepositTransactionFactory;
+import com.service.transactionservice.factory.TxnSequenceService;
 import com.service.transactionservice.factory.WithDrawTransactionFactory;
 import com.service.transactionservice.factory.TansferTransactionFactory;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TransactionFactoryTest {
 
+    @Mock
+    TxnSequenceService txnSequenceService;
+
     @Test
     void testDepositTransactionFactory() {
-        DepositTransactionFactory factory = new DepositTransactionFactory();
+        DepositTransactionFactory factory = new DepositTransactionFactory(txnSequenceService);
         Transaction t = factory.create(TransactionType.DEPOSIT,"A1", 500);
 
         assertNotNull(t);
@@ -25,7 +30,7 @@ class TransactionFactoryTest {
 
     @Test
     void testWithdrawTransactionFactory() {
-        WithDrawTransactionFactory factory = new WithDrawTransactionFactory();
+        WithDrawTransactionFactory factory = new WithDrawTransactionFactory(txnSequenceService);
         Transaction t = factory.create(TransactionType.WITHDRAW,"A1", 300);
 
         assertNotNull(t);
@@ -36,7 +41,7 @@ class TransactionFactoryTest {
 
     @Test
     void testTransferTransactionFactory() {
-        TansferTransactionFactory factory = new TansferTransactionFactory();
+        TansferTransactionFactory factory = new TansferTransactionFactory(txnSequenceService);
         Transaction t = factory.create(TransactionType.TRANSFER,"A1", "A2", 200);
 
         assertNotNull(t);

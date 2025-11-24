@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(DepositProcessor.class);
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 
     @ExceptionHandler(AccountNotFoundException.class)

@@ -8,9 +8,18 @@ import java.time.LocalDateTime;
 
 @Service
 public class TansferTransactionFactory implements TransactionFactoryForTransfer {
+
+    private final TxnSequenceService txnSequenceService;
+
+    public TansferTransactionFactory(TxnSequenceService txnSequenceService){
+        this.txnSequenceService = txnSequenceService;
+    }
+
     @Override
     public Transaction create(TransactionType type, String src, String dest, double amount) {
         Transaction t = new Transaction();
+        String txnId = txnSequenceService.generateTransactionId();
+        t.setTransactionId(txnId);
         t.setType(type);
         t.setAmount(amount);
         t.setTimestamp(LocalDateTime.now());

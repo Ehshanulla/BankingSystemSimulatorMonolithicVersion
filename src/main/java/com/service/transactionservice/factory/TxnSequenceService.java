@@ -1,4 +1,4 @@
-package com.service.transactionservice.logs;
+package com.service.transactionservice.factory;
 
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ public class TxnSequenceService {
     private LocalDate lastDate = LocalDate.now();
     private int sequence = 0;
 
-    public synchronized int nextSequence() {
+    private synchronized int nextSequence() {
         LocalDate today = LocalDate.now();
         if (!today.equals(lastDate)) {
             sequence = 0; // reset sequence for new day
@@ -18,5 +18,11 @@ public class TxnSequenceService {
         }
         sequence++;
         return sequence;
+    }
+
+    public String generateTransactionId() {
+        int seq = nextSequence();
+        String date = java.time.LocalDate.now().toString().replace("-", "");
+        return "TXN-" + date + "-" + String.format("%03d", seq);
     }
 }
